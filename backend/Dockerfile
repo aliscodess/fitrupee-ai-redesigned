@@ -4,18 +4,13 @@ WORKDIR /app
 
 COPY package*.json ./
 
-# Install ALL dependencies (including dev) and ignore peer dependency conflicts
 RUN npm install --legacy-peer-deps
 
 COPY . .
 
-# Build TypeScript
 RUN npm run build
 
-# Remove dev dependencies before copying to production image
-RUN npm prune --omit=dev
-
-FROM node:18-alpine AS production
+FROM node:18-alpine
 
 WORKDIR /app
 
