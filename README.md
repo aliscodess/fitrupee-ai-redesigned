@@ -2,6 +2,50 @@
 
 > A production-grade SaaS app helping Indian users eat healthy on a budget with AI-powered meal plans, workout routines, and grocery optimization.
 
+---
+
+# 📸 Application Screenshots
+
+## 🏠 Landing Page
+
+<p align="center">
+  <img src="Screenshot%202026-06-28%20014923.png" width="900" alt="Landing Page">
+</p>
+
+---
+
+## 🤖 AI Meal Planner
+
+<p align="center">
+  <img src="Screenshot%202026-06-28%20014935.png" width="900" alt="AI Meal Planner">
+</p>
+
+---
+
+## 💪 Workout Planner
+
+<p align="center">
+  <img src="Screenshot%202026-06-28%20014947.png" width="900" alt="Workout Planner">
+</p>
+
+---
+
+## 🛒 Grocery & Nutrition
+
+<p align="center">
+  <img src="Screenshot%202026-06-28%20014959.png" width="900" alt="Grocery Planner">
+</p>
+
+---
+
+## 📊 Dashboard
+
+<p align="center">
+  <img src="Screenshot%202026-06-28%20015156.png" width="900" alt="Dashboard">
+</p>
+
+---
+
 ![FitRupee AI](https://img.shields.io/badge/FitRupee-AI-green?style=for-the-badge)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
