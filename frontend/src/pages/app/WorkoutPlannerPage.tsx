@@ -183,8 +183,17 @@ export default function WorkoutPlannerPage() {
       .finally(() => setFetching(false));
   }, []);
 
+  // Restore saved exercise + day completions for this plan
+useEffect(() => {
+  if (!plan?._id) return;
+  const savedEx = localStorage.getItem(`fitrupee-workout-ex-${plan._id}`);
+  const savedDays = localStorage.getItem(`fitrupee-workout-days-${plan._id}`);
+  setCompletedExercises(savedEx ? new Set(JSON.parse(savedEx)) : new Set());
+  setDaysDone(savedDays ? new Set(JSON.parse(savedDays)) : new Set());
+}, [plan?._id]);
+
   // Reset exercise completions when switching day
-  useEffect(() => { setCompletedExercises(new Set()); setExpandedEx(null); }, [activeDay]);
+  useEffect(() => { setExpandedEx(null); }, [activeDay]);
 
   const generate = async (prefs?: WorkoutPrefs) => {
     if (!profile?.isProfileComplete) { toast.error('Complete your profile first'); return; }
@@ -209,17 +218,22 @@ export default function WorkoutPlannerPage() {
   };
 
   const toggleExercise = (key: string) => {
-    setCompletedExercises(prev => {
-      const next = new Set(prev);
-      next.has(key) ? next.delete(key) : next.add(key);
-      return next;
-    });
-  };
+  setCompletedExercises(prev => {
+    const next = new Set(prev);
+    next.has(key) ? next.delete(key) : next.add(key);
+    if (plan?._id) localStorage.setItem(`fitrupee-workout-ex-${plan._id}`, JSON.stringify([...next]));
+    return next;
+  });
+};
 
   const markDayDone = async () => {
     const today = plan?.plan[activeDay];
     if (!today) return;
-    setDaysDone(prev => new Set([...prev, activeDay]));
+    setDaysDone(prev => {
+      const next = new Set([...prev, activeDay]);
+      if (plan?._id) localStorage.setItem(`fitrupee-workout-days-${plan._id}`, JSON.stringify([...next]));
+      return next;
+    });
     // Log to progress
     try {
       await api.post('/analytics/progress', {
