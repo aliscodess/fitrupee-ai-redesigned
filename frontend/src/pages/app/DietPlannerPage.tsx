@@ -258,6 +258,13 @@ export default function DietPlannerPage() {
       .finally(() => setFetching(false));
   }, []);
 
+  // Restore saved "eaten" ticks for this plan after it loads
+useEffect(() => {
+  if (!plan?._id) return;
+  const saved = localStorage.getItem(`fitrupee-eaten-${plan._id}`);
+  setEatenMeals(saved ? new Set(JSON.parse(saved)) : new Set());
+}, [plan?._id]);
+
   const generatePlan = async (prefs?: DietPrefs) => {
     if (!profile?.isProfileComplete) { toast.error('Please complete your profile first'); return; }
     setLoading(true);
@@ -281,12 +288,15 @@ export default function DietPlannerPage() {
   };
 
   const toggleEaten = (key: string) => {
-    setEatenMeals(prev => {
-      const next = new Set(prev);
-      next.has(key) ? next.delete(key) : next.add(key);
-      return next;
-    });
-  };
+  setEatenMeals(prev => {
+    const next = new Set(prev);
+    next.has(key) ? next.delete(key) : next.add(key);
+    if (plan?._id) {
+      localStorage.setItem(`fitrupee-eaten-${plan._id}`, JSON.stringify([...next]));
+    }
+    return next;
+  });
+};
 
   const handleSwap = async (note: string) => {
     if (!swapping || !plan) return;
